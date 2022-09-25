@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Character {
     static int characterCount;
@@ -9,6 +10,14 @@ public class Character {
     int exp = 0;
     // [attack, defense, health]
     protected int[] attributes = new int[3];
+
+    public Character() {
+        this.name = "unselected";
+        this.kingdom = "unselected";
+        this.level = 0;
+        this.grade = 'Z';
+
+    }
     public Character(String name, String kingdom, char grade){
 
         this.name = name;
@@ -90,7 +99,7 @@ public class Character {
             System.out.println(character.catchPhrase());
         }
 
-        Character playerCharacter;
+        Character playerCharacter = new Character();
        
         boolean selected = false;
 
@@ -111,9 +120,28 @@ public class Character {
             }
             System.out.println("Please choose a given character!");
         }
+
         playerCharacter.printAttributes();
         
-        
+        Character[][] teams = new Character[2][3];
+        teams[0][0] = playerCharacter;
+
+        while (teams[0][1] == null && teams[0][2] == null) {
+            System.out.print("Choose a teamate: ");
+            String playerChoice = myObj.nextLine();
+            for (Character character : characters) {
+                if (character.name.equalsIgnoreCase(playerChoice)) {
+                    System.out.println("You have chosen " + character.name);
+                    if (teams[0][1] == null) {
+                        teams[0][1] = character;
+                    } else {
+                        teams[0][2] = character;
+                    }
+                    break;
+                }
+            }
+            System.out.println("Please choose a given character!");
+        }
         
 
 
