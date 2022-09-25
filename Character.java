@@ -1,6 +1,5 @@
 import java.util.Scanner;
 import java.util.Arrays;
-
 public class Character {
     static int characterCount;
     String name;
@@ -8,6 +7,7 @@ public class Character {
     int level;
     char grade;
     int exp = 0;
+    boolean chosen = false;
     // [attack, defense, health]
     protected int[] attributes = new int[3];
 
@@ -23,7 +23,7 @@ public class Character {
         this.name = name;
         this.kingdom = kingdom;
         this.grade = grade;
-        this.level = (int) (Math.random() * 20) + 20;
+        this.level = (int) (Math.random() * 21) + 20;
         this.exp = 0;
         characterCount++;
     }
@@ -125,23 +125,52 @@ public class Character {
         
         Character[][] teams = new Character[2][3];
         teams[0][0] = playerCharacter;
-
-        while (teams[0][1] == null && teams[0][2] == null) {
+        playerCharacter.chosen = true;
+        while (teams[0][1] == null || teams[0][2] == null) {
             System.out.print("Choose a teamate: ");
             String playerChoice = myObj.nextLine();
-            for (Character character : characters) {
-                if (character.name.equalsIgnoreCase(playerChoice)) {
-                    System.out.println("You have chosen " + character.name);
+            for (int i = 0; i < characterCount; i++) {
+                if (characters[i].name.equalsIgnoreCase(playerChoice) && characters[i].chosen == false) {
                     if (teams[0][1] == null) {
-                        teams[0][1] = character;
+                        teams[0][1] = characters[i];
+                        characters[i].chosen = true;
+                        System.out.println("You have chosen " + characters[i].name);
+
                     } else {
-                        teams[0][2] = character;
+                        teams[0][2] = characters[i];
+                        characters[i].chosen = true;
+                        System.out.println("You have chosen " + characters[i].name);
                     }
+                } else if (i == characterCount - 1) {
+                    System.out.println("Please choose a valid character!");
+                }        
+            }
+        }
+
+        for (Character character : characters) {
+            if (character.chosen == false) {
+                if (teams[1][0] == null) {
+                    teams[1][0] = character;
+                    character.chosen = true;
+                } else if (teams[1][1] == null) {
+                    teams[1][1] = character;
+                    character.chosen = true;
+                } else {
+                    teams[1][2] = character;
+                    character.chosen = true;
                     break;
                 }
             }
-            System.out.println("Please choose a given character!");
         }
+
+        for (int i = 0; i < 2; i++ ) {
+            System.out.println("-------------Team #" + (i+1) + "-------------");
+            for (Character character : teams[i]) {
+                System.out.println(character.name);
+                character.printAttributes();
+            }
+        }
+        
         
 
 
