@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Arrays;
 public class Character {
     static int characterCount;
     String name;
@@ -8,6 +7,7 @@ public class Character {
     char grade;
     int exp = 0;
     boolean chosen = false;
+    boolean alive = true;
     // [attack, defense, health]
     protected int[] attributes = new int[3];
 
@@ -61,23 +61,7 @@ public class Character {
     public String toString() {
         return String.format("I am %s of %s's Kingdom with a level of %d and grade of %s.", this.name, this.kingdom, this.level, this.grade);
     }
-
-    protected static void attack(Character attacker, Character defender) {
-        if (attacker.attributes[0] > defender.attributes[1]) {
-            int damage = (attacker.attributes[0] - defender.attributes[1]);
-            defender.attributes[2] -= damage;
-            System.out.println(String.format("%s did %d damage to %s", attacker.name, damage, defender.name));
-            if (defender.attributes[2] <= 0) {
-                defender.attributes[2] = 0;
-            }
-            System.out.println(String.format("%s has %d health points left!", defender.name, defender.attributes[2]));
-            if (defender.attributes[2] <= 0) {
-                System.out.println(defender.name + " has fainted!");
-            }
-            return;
-        }
-        System.out.println(attacker.name + " did no damage to " + defender.name + " !");
-    }
+    
 
     public static void main(String[] args) {
         // Yoshi Josh = new Yoshi("Josh", 42, 28);
@@ -171,7 +155,16 @@ public class Character {
             }
         }
         
-        
+        System.out.println("-------------------------------------------------------------------------------");
+        System.out.println("Let the battle begin!!!!!!!!!!!!!!!!");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        Battlefield Battlefield = new Battlefield(teams);
+
+        while ((teams[0][0].alive || teams[0][1].alive || teams[0][2].alive) && (teams[1][0].alive || teams[1][1].alive || teams[1][2].alive)) {
+
+        }
+
 
 
     }
