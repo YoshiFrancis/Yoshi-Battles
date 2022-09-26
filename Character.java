@@ -162,6 +162,11 @@ public class Character {
         Battlefield Battlefield = new Battlefield(teams);
 
         while ((teams[0][0].alive || teams[0][1].alive || teams[0][2].alive) && (teams[1][0].alive || teams[1][1].alive || teams[1][2].alive)) {
+
+            for (Character character : characters) {
+                character.printAttributes();
+            }
+
             String playerMoves[][] = new String[3][2];
 
             for (int i = 0; i < playerMoves.length; i++) {
@@ -206,19 +211,31 @@ public class Character {
                                     System.out.println("You have chosen to defend " + character.name);
                                 }
                             }       
-                    }
-                    
+                    }  
                 } else {
                     System.out.println("Please choose attack or defend!");
                     i--;
                 }
             }
+
+            String[][] enemyMoves = Battlefield.generateEnemyMoves();
             
-
-
+            for (int i = 0; i < 3; i++) {
+                if (playerMoves[i][0].equalsIgnoreCase("attack")) {
+                    for (Character character : teams[1]) {
+                        if (character.name.equalsIgnoreCase(playerMoves[i][1])) {
+                            Battlefield.attack(Battlefield.teamOne[i], character);
+                        }
+                    }
+                }
+                if (enemyMoves[i][0].equalsIgnoreCase("attack")) {
+                    for (Character character : teams[0]) {
+                        if (character.name.equalsIgnoreCase(enemyMoves[i][1])) {
+                            Battlefield.attack(Battlefield.teamTwo[i], character);
+                        }
+                    }
+                }
+            }
         }
-
-
-
     }
 }

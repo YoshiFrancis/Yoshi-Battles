@@ -26,6 +26,31 @@ public class Battlefield {
         System.out.println(attacker.name + " did no damage to " + defender.name + " !");
     }
 
+    public String[][] generateEnemyMoves() {
+        String[][] enemyMoves = new String[3][2];
+
+        for (String[] move : enemyMoves) {
+            if ((int) Math.random() <= .7) {
+                move[0] = "attack";
+                int index = (int) Math.random() *3;
+                while (!teamOne[index].alive) {
+                    index = (int) Math.random() *3;
+                }
+                move[1] = teamOne[index].name;
+            } else {
+                move[0] = "defend";
+                int index = (int) Math.random() *3;
+                while (!teamTwo[index].alive) {
+                    index = (int) Math.random() *3;
+                }
+                move[1] = teamTwo[index].name;
+            }
+
+        }
+        return enemyMoves;
+    }
+
+
     // public void defend(Character defender, Character defended) {
     //     if (defender.attributes[2] <= 0 || defended.attributes[2] <= 0) {
     //         System.out.println("Not a valid move");
