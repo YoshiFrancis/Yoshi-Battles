@@ -87,6 +87,7 @@ public class Character {
        
         boolean selected = false;
 
+        // THIS IS WHERE YOU CHOOSE CHARACTER TO REPRESENT 
         while (selected == false) {
             System.out.print("Choose a character: ");
             String playerChoice = myObj.nextLine();
@@ -107,6 +108,7 @@ public class Character {
 
         playerCharacter.printAttributes();
         
+        // WHERE YOU CHOOSE TEAMMATES
         Character[][] teams = new Character[2][3];
         teams[0][0] = playerCharacter;
         playerCharacter.chosen = true;
@@ -130,7 +132,9 @@ public class Character {
                 }        
             }
         }
-
+        //
+        // generates enemy team
+        //
         for (Character character : characters) {
             if (character.chosen == false) {
                 if (teams[1][0] == null) {
@@ -147,6 +151,9 @@ public class Character {
             }
         }
 
+
+        // displays the two teams
+
         for (int i = 0; i < 2; i++ ) {
             System.out.println("-------------Team #" + (i+1) + "-------------");
             for (Character character : teams[i]) {
@@ -160,6 +167,10 @@ public class Character {
         System.out.println("-------------------------------------------------------------------------------");
 
         Battlefield Battlefield = new Battlefield(teams);
+
+        //
+        // loops over each round until either side has all members fainted
+        //
 
         while ((teams[0][0].alive || teams[0][1].alive || teams[0][2].alive) && (teams[1][0].alive || teams[1][1].alive || teams[1][2].alive)) {
 
@@ -176,16 +187,15 @@ public class Character {
                 System.out.println(String.format("Would you like %s to attack or defend?", teams[0][i].name));
                 playerMoves[i][0] = myObj.nextLine();
                 if (playerMoves[i][0].equalsIgnoreCase("attack")) {
-                    System.out.println(String.format("Who would you like %s to attack?", teams[0][i].name));
+                    
                     for (Character character : teams[1]) {
                         if (character.alive) {
                             System.out.println(character.name + " // health: " + character.attributes[2]);
                         }
                     }
-                    String tmp = myObj.nextLine();
                     while (playerMoves[i][1] == null) {
-                        System.out.println("Please choose a character to attack!");
-                        tmp = myObj.nextLine();
+                        System.out.println(String.format("Who would you like %s to attack?", teams[0][i].name));
+                        String tmp = myObj.nextLine();
                             for (Character character : teams[1]) {
                                 if (tmp.equalsIgnoreCase(character.name)) {
                                     playerMoves[i][1] = character.name;
@@ -221,14 +231,14 @@ public class Character {
             String[][] enemyMoves = Battlefield.generateEnemyMoves();
             
             for (int i = 0; i < 3; i++) {
-                if (playerMoves[i][0].equalsIgnoreCase("attack")) {
+                if (playerMoves[i][0].equalsIgnoreCase("attack") && teams[0][i].alive) {
                     for (Character character : teams[1]) {
                         if (character.name.equalsIgnoreCase(playerMoves[i][1])) {
                             Battlefield.attack(Battlefield.teamOne[i], character);
                         }
                     }
                 }
-                if (enemyMoves[i][0].equalsIgnoreCase("attack")) {
+                if (enemyMoves[i][0].equalsIgnoreCase("attack") && teams[1][i].alive) {
                     for (Character character : teams[0]) {
                         if (character.name.equalsIgnoreCase(enemyMoves[i][1])) {
                             Battlefield.attack(Battlefield.teamTwo[i], character);
