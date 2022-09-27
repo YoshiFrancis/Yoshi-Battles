@@ -207,16 +207,14 @@ public class Character {
                     }
 
                 } else if (playerMoves[i][0].equalsIgnoreCase("defend")) {
-                    System.out.println(String.format("Who would you like %s to defend?", teams[0][i].name));
                     for (Character character : teams[0]) {
                         if (character.alive) {
                             System.out.println(character.name + " // health: " + character.attributes[2]);
                         }
                     }
-                    String tmp = myObj.nextLine();
                     while (playerMoves[i][1] == null) {
-                        System.out.println("Please choose a character to defend:");
-                        tmp = myObj.nextLine();
+                        System.out.println(String.format("Who would you like %s to defend?", teams[0][i].name));
+                        String tmp = myObj.nextLine();
                             for (Character character : teams[0]) {
                                 if (tmp.equalsIgnoreCase(character.name)) {
                                     if (!character.alive) {

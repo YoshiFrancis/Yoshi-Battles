@@ -75,7 +75,7 @@ public class Battlefield {
         this.round++;
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 3; j++) {
-                teams[i][j].attributes = permAttributes[i][j].clone();
+                teams[i][j].attributes[1] = permAttributes[i][j][1];
 
             }
         }
