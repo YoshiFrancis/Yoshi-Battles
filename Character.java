@@ -173,7 +173,9 @@ public class Character {
         //
 
         while ((teams[0][0].alive || teams[0][1].alive || teams[0][2].alive) && (teams[1][0].alive || teams[1][1].alive || teams[1][2].alive)) {
+            Battlefield.setRound(teams);
 
+            System.out.println("--------------------------------------- Current Round: " + Battlefield.getRound() + " ---------------------------------------");
             for (Character character : characters) {
                 character.printAttributes();
             }
@@ -217,6 +219,10 @@ public class Character {
                         tmp = myObj.nextLine();
                             for (Character character : teams[0]) {
                                 if (tmp.equalsIgnoreCase(character.name)) {
+                                    if (!character.alive) {
+                                        System.out.println("Not a valid character to defend!");
+                                        continue;
+                                    }
                                     playerMoves[i][1] = character.name;
                                     System.out.println("You have chosen to defend " + character.name);
                                 }
@@ -242,6 +248,21 @@ public class Character {
                     for (Character character : teams[0]) {
                         if (character.name.equalsIgnoreCase(enemyMoves[i][1])) {
                             Battlefield.attack(Battlefield.teamTwo[i], character);
+                        }
+                    }
+                }
+
+                if (playerMoves[i][0].equalsIgnoreCase("defend") && teams[0][i].alive) {
+                    for (Character character : teams[0]) {
+                        if (character.name.equalsIgnoreCase(playerMoves[i][1])) {
+                            Battlefield.defend(Battlefield.teamOne[i], character);
+                        }
+                    }
+                }
+                if (enemyMoves[i][0].equalsIgnoreCase("defend") && teams[1][i].alive) {
+                    for (Character character : teams[1]) {
+                        if (character.name.equalsIgnoreCase(enemyMoves[i][1])) {
+                            Battlefield.defend(Battlefield.teamTwo[i], character);
                         }
                     }
                 }

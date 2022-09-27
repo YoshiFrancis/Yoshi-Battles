@@ -1,12 +1,20 @@
 public class Battlefield {
-    
     Character[] teamOne;
     Character[] teamTwo;
-    int round = 1;
+    private int round = 0;
+    private int[][][] permAttributes = new int[2][3][3];
 
     Battlefield(Character[][] teams) {
         this.teamOne = teams[0];
         this.teamTwo = teams[1];
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                int[] tmp= new int[3];
+                tmp = teams[i][j].attributes.clone();
+                this.permAttributes[i][j] = tmp;
+            }
+        }
+        
     }
 
     public void attack(Character attacker, Character defender) {
@@ -40,9 +48,7 @@ public class Battlefield {
                 int index = (int) (Math.random() * 3);
                 while (!teamOne[index].alive) {
                     index = (int) Math.random() * 3;
-                    System.out.println(index);
                 }
-                System.out.println("index = " + index);
                 enemyMoves[i][1] = teamOne[index].name;
             } else {
                 enemyMoves[i][0] = "defend";
@@ -58,13 +64,26 @@ public class Battlefield {
     }
 
 
-    // public void defend(Character defender, Character defended) {
-    //     if (defender.attributes[2] <= 0 || defended.attributes[2] <= 0) {
-    //         System.out.println("Not a valid move");
-    //     }
+    public void defend(Character defender, Character defended) {
+        if (defender.attributes[2] >= 1 || defended.attributes[2] >= 1) {
+            defended.attributes[1] += defender.attributes[1]; 
+            defender.attributes[1] += defended.attributes[1];
+            System.out.println(String.format("%s has defended %s // %s's defence : %d // %s's defence : %d", defender.name, defended.name, defender.name, defender.attributes[1],  defended.name, defended.attributes[1]));
+        }
+    }
+    public void setRound(Character[][] teams) {
+        this.round++;
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                teams[i][j].attributes = permAttributes[i][j].clone();
 
+            }
+        }
+    }
 
-    // }
+    public int getRound() {
+        return round;
+    }
 
 
 }
